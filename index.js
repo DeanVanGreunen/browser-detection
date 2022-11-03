@@ -139,11 +139,19 @@ async function supportedAPI(userAgent){
             info.permissionQuery.microphone = false;
         }
     } else {
+        let devices = await navigator.mediaDevices.enumerateDevices();
+        let hasAudio = false;
+        let hasVideo = false;
+        for(const device of devices){
+            if(device.kind == 'audioinput' && device.label) hasAudio = true;
+            if(device.kind == 'videoinput' && device.label) hasVideo = true;
+        }        
+        info.permissionQuery.microphone = hasAudio;
+        info.permissionQuery.camera = hasVideo;
         info.permissionQuery.enabled = false;
     }
     return info;
 }
-
 
 export async function getBrowserInfo(){
     let userAgent = window.navigator.userAgent;
