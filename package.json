@@ -1,0 +1,12 @@
+{
+  "name": "@deanvangreunen/browser-detection",
+  "version": "1.0.0",
+  "description": "Give browser's brand, version, and suported features",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Dean Van Greunen",
+  "license": "ISC"
+}
