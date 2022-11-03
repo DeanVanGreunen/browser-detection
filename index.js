@@ -47,6 +47,13 @@ function getPlatformData(userAgent){
         let versionString = userAgent.substr(userAgent.indexOf("iPhone OS") + 10);
         let version = versionString.substr(0, versionString.indexOf(" ")).replaceAll("_", ".");
         info.version = version;
+    } else if(userAgent.includes("Linux") && userAgent.includes("Android")){ // is Android
+        info.name = "Android";
+        let startIndex = userAgent.indexOf("Android") + 8;
+        let subed = userAgent.substr(startIndex);
+        let endIndex = subed.indexOf(" ");
+        let version = subed.substr(0, endIndex);
+        info.version = version;
     }
     return info;
 }
@@ -94,10 +101,6 @@ async function supportedAPI(userAgent){
     return info;
 }
 
-function getScreenInfo(){
-    return screen;
-}
-
 
 export async function getBrowserInfo(){
     let userAgent = window.navigator.userAgent;
@@ -106,7 +109,6 @@ export async function getBrowserInfo(){
         "platform": getPlatformData(userAgent),
         "isMobile": getIsMobile(userAgent),
         "supportedAPI": await supportedAPI(userAgent),
-        "screen": getScreenInfo()
     };
     return info;
 }
