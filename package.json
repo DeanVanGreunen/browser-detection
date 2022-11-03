@@ -1,9 +1,10 @@
 {
   "name": "@deanvangreunen/browser-detection",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "description": "Give browser's brand, version, and suported features",
   "main": "index.js",
   "scripts": {
+    "publish": "npm publish --access=public",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

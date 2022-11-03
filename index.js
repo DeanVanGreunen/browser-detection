@@ -21,6 +21,14 @@ function getBrowserData(userAgent){
         'version': data[1],
     };
 }
+
+function getMajorAndMinorVersion(version){
+    let parts = version.split('.');
+    let major = parts[0];
+    let minor = parts[1];
+    return parseFloat(`${major}.${minor}`);
+}
+
 function getPlatformData(userAgent){
     let info = {
         "name": "",
@@ -45,9 +53,44 @@ function getPlatformData(userAgent){
     } else if(userAgent.includes("iPhone")){ // is iPhone
         info.name = "iPhone";
         let versionString = userAgent.substr(userAgent.indexOf("iPhone OS") + 10);
-        let version = versionString.substr(0, versionString.indexOf(" ")).replaceAll("_", ".");
+        let version = versionString.substr(0, versionString.indexOf(" ")).replace(/_/g,".");
+        let dotCount = (version.match(/./g) || []).length;
+        if(dotCount >= 2){
+            info.version = getMajorAndMinorVersion(version); // drops everything but major and minor versions
+        } else {
+            info.version = version;
+        }
+    } else if(userAgent.includes("iPad")){ // is iPad
+        info.name = "iPad";
+        let versionString = userAgent.substr(userAgent.indexOf("CPU OS") + 7);
+        let version = versionString.substr(0, versionString.indexOf(" ")).replace(/_/g,".");
+        let dotCount = (version.match(/./g) || []).length;
+        if(dotCount >= 2){
+            info.version = getMajorAndMinorVersion(version); // drops everything but major and minor versions
+        } else {
+            info.version = version;
+        }
+    } else if(userAgent.includes("iPod")){ // is iPod
+        info.name = "iPhone";
+        let versionString = userAgent.substr(userAgent.indexOf("iPhone OS") + 10);
+        let version = versionString.substr(0, versionString.indexOf(" ")).replace(/_/g,".");
+        let dotCount = (version.match(/./g) || []).length;
+        if(dotCount >= 2){
+            info.version = getMajorAndMinorVersion(version); // drops everything but major and minor versions
+        } else {
+            info.version = version;
+        }
+    } else if((userAgent.includes("Linux") && userAgent.includes("X11")) || (userAgent.includes("Linux x86_64") || userAgent.includes("Linux i686"))){ // is Linux on PC
+        info.name = "Linux";
+        info.version = 1;
+    } else if(userAgent.includes("Linux") && userAgent.includes("Android")){ // is Android Mobile
+        info.name = "Android";
+        let startIndex = userAgent.indexOf("Android") + 8;
+        let subed = userAgent.substr(startIndex);
+        let endIndex = subed.indexOf(" ");
+        let version = subed.substr(0, endIndex);
         info.version = version;
-    } else if(userAgent.includes("Linux") && userAgent.includes("Android")){ // is Android
+    } else if(userAgent.includes("Android")){ // is Android Mobile (IN CASE Linux was removed from the string)
         info.name = "Android";
         let startIndex = userAgent.indexOf("Android") + 8;
         let subed = userAgent.substr(startIndex);
@@ -147,4 +190,6 @@ export async function getBrowserInfo(){
 // 4. Gecko/geckotrail indicates that the browser is based on Gecko. (On the desktop, geckotrail is always the fixed string 20100101.)
 
 
-// 
+// replaceAll
+// Unhandled Promise Rejection: TypeError: s.substr(0,s.indexOf(" ")).replaceAll is not a function. (In 's.substr(0,s.indexOf(" ")).replaceAll("_",".")', 's.substr(0,s.indexOf(" ")).replaceAll' is undefined)
+// Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1"
