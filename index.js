@@ -71,7 +71,7 @@ function getPlatformData(userAgent){
             info.version = version;
         }
     } else if(userAgent.includes("iPod")){ // is iPod
-        info.name = "iPhone";
+        info.name = "iPod";
         let versionString = userAgent.substr(userAgent.indexOf("iPhone OS") + 10);
         let version = versionString.substr(0, versionString.indexOf(" ")).replace(/_/g,".");
         let dotCount = (version.match(/./g) || []).length;

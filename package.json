@@ -1,6 +1,6 @@
 {
   "name": "@deanvangreunen/browser-detection",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "description": "Give browser's brand, version, and suported features",
   "main": "index.js",
   "scripts": {
